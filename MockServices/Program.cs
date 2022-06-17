@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MockServices.Idp.Manager;
 using MockServices.Idp.Requests;
 using MockServices.Options;
 using Refit;
@@ -28,11 +29,9 @@ namespace MockServices
         
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            var idp = configuration.GetSection("Idp");
-            var uri = configuration.GetSection("Idp:Uri");
             services
                 .Configure<IdpOptions>(configuration.GetSection("Idp"))
-                .AddSingleton<IdpWrapper>()
+                .AddSingleton<IdpManager>()
                 .AddRefitClient<IIdp>()
                 .ConfigureHttpClient(c =>
                     c.BaseAddress = new Uri(configuration.GetSection("Idp:Uri").Value)

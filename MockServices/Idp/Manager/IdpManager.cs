@@ -5,7 +5,7 @@ namespace MockServices.Idp.Manager
 {
     public class IdpManager
     {
-        private IdpModel IdpModel;
+        private IdpModel _idpModel;
         private readonly IIdp _idp;
 
         public IdpManager(IIdp idp)
@@ -15,20 +15,20 @@ namespace MockServices.Idp.Manager
 
         public IdpModel GetModel()
         {
-            if (IdpModel is null)
+            if (_idpModel is null)
             {
-                IdpModel = _idp.Get().Result;
+                _idpModel = _idp.Get().Result;
             }
             
-            var idpClone = IdpModel.Clone();
-            IdpModel = null;
+            var idpClone = _idpModel.Clone();
+            _idpModel = null;
 
             return idpClone;
         }
 
         public void SetModel(IdpModel idpModel)
         {
-            IdpModel = idpModel;
+            _idpModel = idpModel;
         }
     }
 }
